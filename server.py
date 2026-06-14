@@ -673,12 +673,6 @@ def process_message(session_id, user_input):
                 'step': 'AWAIT_CHAPTER'
             }
 
-    elif state['step'] == 'AWAIT_CHOICE':
-        return {
-            'messages': [{'text': 'Apasa unul din butoanele de mai sus: <strong>📖 Teorie</strong> sau <strong>✏️ Probleme</strong>.'}],
-            'buttons': [],
-            'step': 'AWAIT_CHOICE'
-        }
 
     elif state['step'] == 'DONE':
         return {
