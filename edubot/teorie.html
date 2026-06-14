@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduBot — Teorie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="content.css" />
+</head>
+<body>
+<div class="content-layout">
+
+  <header class="content-topbar">
+    <a href="chat.html" class="back-btn">← Înapoi la Chat</a>
+    <div class="topbar-center">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">EduBot</span>
+    </div>
+    <div class="topbar-badge theory">📖 Teorie</div>
+  </header>
+
+  <main class="content-main" id="contentMain">
+    <div class="loading">Se încarcă...</div>
+  </main>
+
+</div>
+<script>
+const capitol = new URLSearchParams(window.location.search).get('capitol') || '1';
+
+fetch(`http://localhost:5000/api/teorie/${capitol}`)
+  .then(r => r.json())
+  .then(data => render(data))
+  .catch(() => {
+    document.getElementById('contentMain').innerHTML =
+      '<p style="color:#ef4444;padding:40px">Eroare: serverul nu răspunde. Asigură-te că rulezi python server.py</p>';
+  });
+
+function render(data) {
+  const main = document.getElementById('contentMain');
+  document.title = `EduBot — Teorie: ${data.titlu}`;
+
+  main.innerHTML = `
+    <div class="content-hero">
+      <div class="content-type-badge">📖 Teorie</div>
+      <div class="content-chapter-num">Capitol ${capitol}</div>
+      <h1 class="content-title">${data.titlu}</h1>
+    </div>
+
+    <div class="content-body">
+
+      <!-- DEFINITII -->
+      <div class="section-block">
+        <div class="section-label-row">
+          <span class="section-icon">📌</span>
+          <h2 class="section-heading">Definiții</h2>
+        </div>
+        <ul class="def-list">
+          ${data.definitii.map(d => `
+            <li class="def-item">
+              <span class="def-term">${d.termen}</span>
+              <span class="def-sep">—</span>
+              <span class="def-text">${d.definitie}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <!-- EXPLICATII -->
+      <div class="section-block">
+        <div class="section-label-row">
+          <span class="section-icon">💡</span>
+          <h2 class="section-heading">Explicații</h2>
+        </div>
+        <div class="explicatii-list">
+          ${data.explicatii.map(e => `
+            <div class="explicatie-card">
+              <h3 class="explicatie-titlu">${e.titlu}</h3>
+              <p class="explicatie-text">${e.text}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- SINTAXA -->
+      <div class="section-block">
+        <div class="section-label-row">
+          <span class="section-icon">🔧</span>
+          <h2 class="section-heading">Sintaxă</h2>
+        </div>
+        <div class="sintaxa-list">
+          ${data.sintaxa.map(s => `
+            <div class="sintaxa-block">
+              <div class="sintaxa-descriere">${s.descriere}</div>
+              <pre class="code-block">${s.cod}</pre>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- EXEMPLE SIMPLE -->
+      <div class="section-block">
+        <div class="section-label-row">
+          <span class="section-icon">✏️</span>
+          <h2 class="section-heading">Exemple simple</h2>
+        </div>
+        <div class="exemple-list">
+          ${data.exemple.map((e, i) => `
+            <div class="exemplu-card">
+              <div class="exemplu-nr">Exemplu ${i + 1}</div>
+              <p class="exemplu-desc">${e.descriere}</p>
+              <pre class="code-block">${e.cod}</pre>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- NAV -->
+      <div class="content-nav">
+        <a href="chat.html" class="nav-btn primary">← Înapoi la Chat</a>
+        <a href="probleme.html?capitol=${capitol}" class="nav-btn secondary">Mergi la Probleme →</a>
+      </div>
+
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

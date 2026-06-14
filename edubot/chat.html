@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduBot — Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+
+  <div class="chat-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">◈</span>
+        <span>EduBot</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">← Acasă</a>
+      </nav>
+      <div class="sidebar-info">
+        <div class="info-title">Capitole disponibile</div>
+        <div class="chapter-list">
+          <div class="chapter-item" id="ch1">Matrici</div>
+          <div class="chapter-item" id="ch2">Generarea Matricelor</div>
+          <div class="chapter-item" id="ch3">Subprograme</div>
+          <div class="chapter-item" id="ch4">Siruri de caractere</div>
+          <div class="chapter-item" id="ch5">Struct</div>
+          <div class="chapter-item" id="ch6">Recursivitate</div>
+        </div>
+      </div>
+      <button class="sidebar-reset" onclick="resetChat()">↺ Resetează Chat</button>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-main">
+      <div class="chat-topbar">
+        <div class="bot-status">
+          <div class="status-dot"></div>
+          <span class="bot-name">EduBot</span>
+        </div>
+        <span class="chat-subtitle">Asistentul tău educațional interactiv</span>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="messages-area" id="messagesArea">
+        <!-- Messages are injected here -->
+      </div>
+
+      <!-- INPUT -->
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="userInput"
+          class="chat-input"
+          placeholder="Scrie un mesaj sau un număr (1-8)..."
+          autocomplete="off"
+        />
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <span>↑</span>
+        </button>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="chat.js"></script>
+</body>
+</html>

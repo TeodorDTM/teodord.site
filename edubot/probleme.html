@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduBot — Probleme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="content.css" />
+</head>
+<body>
+<div class="content-layout">
+
+  <header class="content-topbar">
+    <a href="chat.html" class="back-btn">← Înapoi la Chat</a>
+    <div class="topbar-center">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">EduBot</span>
+    </div>
+    <div class="topbar-badge problems">✏️ Probleme</div>
+  </header>
+
+  <main class="content-main" id="contentMain">
+    <div class="loading">Se încarcă...</div>
+  </main>
+
+</div>
+<script>
+const capitol = new URLSearchParams(window.location.search).get('capitol') || '1';
+
+fetch(`http://localhost:5000/api/probleme/${capitol}`)
+  .then(r => r.json())
+  .then(data => render(data))
+  .catch(() => {
+    document.getElementById('contentMain').innerHTML =
+      '<p style="color:#ef4444;padding:40px">Eroare: serverul nu răspunde. Asigură-te că rulezi python server.py</p>';
+  });
+
+const shown = {};
+
+function toggle(id) {
+  const el = document.getElementById(id);
+  const btn = document.getElementById('btn-' + id);
+  if (!shown[id]) {
+    el.style.display = 'block';
+    btn.textContent = '🙈 Ascunde';
+    shown[id] = true;
+  } else {
+    el.style.display = 'none';
+    btn.textContent = '👁 Arată';
+    shown[id] = false;
+  }
+}
+
+function render(data) {
+  const main = document.getElementById('contentMain');
+  document.title = `EduBot — Probleme: ${data.titlu}`;
+
+  const probleme_html = data.probleme.map((p, i) => `
+    <div class="problema-card">
+
+      <!-- SURSA -->
+      <div class="problema-header">
+        <span class="problema-nr">Problema ${i + 1}</span>
+        <span class="problema-sursa">📂 ${p.sursa}</span>
+      </div>
+
+      <!-- ENUNT ORIGINAL -->
+      <div class="pb-section">
+        <div class="pb-label">📄 Enunț original</div>
+        <div class="pb-box enunt-original">${p.enunt_original}</div>
+      </div>
+
+      <!-- ENUNT REFORMULAT -->
+      <div class="pb-section">
+        <div class="pb-label">📖 Enunț reformulat <span class="pb-sublabel">(tip poveste)</span></div>
+        <div class="pb-box enunt-poveste">${p.enunt_reformulat}</div>
+      </div>
+
+      <!-- EXEMPLU INTRARE / IESIRE -->
+      <div class="pb-section">
+        <div class="pb-label">🔢 Exemplu intrare / ieșire</div>
+        <div class="io-grid">
+          <div class="io-box">
+            <div class="io-label">Intrare</div>
+            <pre class="io-pre">${p.intrare}</pre>
+          </div>
+          <div class="io-box">
+            <div class="io-label">Ieșire</div>
+            <pre class="io-pre">${p.iesire}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- COD C++ -->
+      <div class="pb-section">
+        <div class="pb-label-row">
+          <div class="pb-label">💻 Cod C++</div>
+          <button class="toggle-btn" id="btn-cod-${i}" onclick="toggle('cod-${i}')">👁 Arată</button>
+        </div>
+        <pre class="code-block hidden-block" id="cod-${i}">${p.cod_cpp}</pre>
+      </div>
+
+      <!-- EXPLICATIE SOLUTIE -->
+      <div class="pb-section">
+        <div class="pb-label-row">
+          <div class="pb-label">🧠 Explicația soluției</div>
+          <button class="toggle-btn" id="btn-exp-${i}" onclick="toggle('exp-${i}')">👁 Arată</button>
+        </div>
+        <div class="pb-box explicatie-box hidden-block" id="exp-${i}">${p.explicatie}</div>
+      </div>
+
+    </div>
+  `).join('');
+
+  main.innerHTML = `
+    <div class="content-hero">
+      <div class="content-type-badge problems-badge">✏️ Probleme</div>
+      <div class="content-chapter-num">Capitol ${capitol}</div>
+      <h1 class="content-title">${data.titlu}</h1>
+    </div>
+    <div class="content-body">
+      ${probleme_html}
+      <div class="content-nav">
+        <a href="chat.html" class="nav-btn primary">← Înapoi la Chat</a>
+        <a href="teorie.html?capitol=${capitol}" class="nav-btn secondary">📖 Vezi Teoria →</a>
+      </div>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

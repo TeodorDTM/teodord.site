@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CodeTroopers</title>
+    
+    <style>
+        /* =========================================
+           1. RESET & VARIABLES
+           ========================================= */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-blur: 20px;
+            --accent: #febc03;
+            --text-main: #ffffff;
+            --bg-dark: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body, html {
+            width: 100%; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Ambient Background */
+        .ambient-hero {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #141414 0%, #000000 90%);
+        }
+
+        /* =========================================
+           2. NAVIGATION (MOBILE PREMIUM)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo-text { font-weight: 800; font-size: 1.1rem; z-index: 1002; }
+        .logo-text span { color: var(--accent); }
+
+        .burger {
+            width: 30px; height: 20px; position: relative; cursor: pointer; z-index: 1002;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .burger span { display: block; width: 100%; height: 2px; background: #fff; transition: 0.3s; }
+        .burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .burger.active span:nth-child(2) { opacity: 0; }
+        .burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+        .nav-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 40px;
+            z-index: 1001; opacity: 0; pointer-events: none; transition: 0.4s;
+        }
+        .nav-menu.active { opacity: 1; pointer-events: all; }
+        .nav-link { font-size: 2rem; font-weight: 700; color: #ccc; text-decoration: none; text-transform: uppercase; }
+        .nav-link:hover { color: var(--accent); }
+
+        /* =========================================
+           3. HERO SECTION
+           ========================================= */
+        #hero {
+            height: 100dvh; width: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; z-index: 1; 
+        }
+
+        .hero-logo-wrapper {
+            position: relative; width: 280px; height: 280px;
+            display: flex; justify-content: center; align-items: center; transform: scale(0.9);
+        }
+
+        .glow-base {
+            position: absolute; width: 220px; height: 220px;
+            background: radial-gradient(circle, rgba(254, 188, 3, 0.6) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(35px); animation: permanentGlow 4s infinite alternate;
+        }
+        .glow-irregular {
+            position: absolute; width: 280px; height: 280px;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+            border-radius: 40% 60% 70% 30%; filter: blur(45px); animation: rotateIrregular 10s infinite linear;
+        }
+        .main-image { position: relative; z-index: 2; width: 250px; height: 250px; object-fit: contain; animation: floating 4s infinite ease-in-out; }
+
+        .scroll-cta { 
+            position: absolute;
+            bottom: 30px; 
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 8px; 
+            cursor: pointer; 
+            z-index: 10; 
+        }
+        
+        .mouse-icon { width: 24px; height: 36px; border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; position: relative; }
+        .wheel { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 2px; height: 4px; background: var(--accent); animation: scrollWheel 1.5s infinite; }
+        .scroll-text { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+
+        /* =========================================
+           4. CONTENT WRAPPER & SEASONS STYLE
+           ========================================= */
+        .content-gradient-wrapper {
+            position: relative; z-index: 2;
+            background: linear-gradient(to bottom, #000000 0%, #1a0b00 25%, #050505 100%);
+            padding-bottom: 0;
+            border-top: none; 
+            box-shadow: 0 -60px 100px rgba(0,0,0,1); 
+        }
+
+        section { padding: 80px 0; }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+        h2 { font-size: 2rem; margin-bottom: 40px; text-transform: uppercase; text-align: left; padding-left: 10px; border-left: 4px solid var(--accent); }
+
+        /* GRID SEZOANE */
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .img-tile, .photo-frame {
+            position: relative; display: block; width: 100%; height: 280px;
+            border-radius: 20px; overflow: hidden; text-decoration: none;
+            border: 1px solid var(--glass-border); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .img-tile:active, .photo-frame:active { transform: scale(0.97); box-shadow: 0 0 15px var(--accent); border-color: var(--accent); z-index: 10; }
+
+        .tile-bg, .team-img-large {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: transform 0.5s ease; z-index: 0; 
+        }
+        .tile-bg { filter: brightness(0.6); }
+
+        .img-tile:active .tile-bg, .photo-frame:active .team-img-large { transform: scale(1.05); }
+
+        .tile-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0) 100%);
+            z-index: 1; display: flex; flex-direction: column; gap: 5px;
+        }
+        .tile-year { font-size: 2.5rem; font-weight: 800; color: #fff; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .tile-label { font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+        .tile-arrow { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+
+        /* =========================================
+           5. TEAM GALLERY
+           ========================================= */
+        .team-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        /* =========================================
+           6. CONTACT STYLES
+           ========================================= */
+        .glass-card { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 25px; 
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-text h3 {
+            margin: 0; font-size: 1.1rem; color: #fff; margin-bottom: 5px;
+        }
+
+        .contact-text p {
+            margin: 0; color: #aaa; font-size: 0.9rem;
+        }
+
+        .contact-logo {
+            width: 60px; height: auto; margin-left: 15px; object-fit: contain;
+        }
+
+        .map-frame { 
+            width: 100%; height: 300px; border-radius: 16px; overflow: hidden; 
+        }
+        
+        iframe { width: 100%; height: 100%; border: 0; }
+
+        /* =========================================
+           7. FOOTER STYLES
+           ========================================= */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            border-top: none;
+            background: transparent;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 5px;
+        }
+
+        .social-link {
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-link:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        /* STIL NOU PENTRU IMAGINILE PNG DIN FOOTER */
+        .social-link img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .made-by {
+            margin-top: 5px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* ANIMATII */
+        @keyframes permanentGlow { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0.8; } }
+        @keyframes rotateIrregular { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes floating { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes scrollWheel { 0% { top: 6px; opacity: 1; } 100% { top: 20px; opacity: 0; } }
+        
+        /* DESKTOP / TABLET TWEAKS */
+        @media (min-width: 768px) {
+            .tiles-grid { grid-template-columns: 1fr 1fr; }
+            .team-gallery { grid-template-columns: 1fr 1fr; gap: 30px; } 
+            .team-gallery .photo-frame:nth-child(3) { grid-column: 1 / span 2; width: calc(50% - 15px); margin: 0 auto; }
+            .hero-logo-wrapper { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-hero"></div>
+
+    <nav>
+        <div class="logo-text">CODE<span>TROOPERS</span></div>
+        <div class="burger" id="burgerBtn">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="CodeTroopers-Innovation.html" class="nav-link">Innovation 2026</a>
+            <a href="CodeTroopers-Game.html" class="nav-link">$GAME$</a>
+            <a href="#timeline" class="nav-link">Sezoane</a>
+            <a href="#team" class="nav-link">Echipa</a>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-logo-wrapper">
+            <div class="glow-base"></div>
+            <div class="glow-irregular"></div>
+            <img src="logo.png" alt="Logo" class="main-image">
+        </div>
+        
+        <div class="scroll-cta" onclick="document.getElementById('timeline').scrollIntoView()">
+            <div class="mouse-icon"><div class="wheel"></div></div>
+            <span class="scroll-text">Scroll Down</span>
+        </div>
+    </section>
+
+    <div class="content-gradient-wrapper">
+        
+        <section id="timeline">
+            <div class="container">
+                <h2>Sezoane</h2>
+                <div class="tiles-grid">
+                    <a href="CodeTroopers-Innovation.html" class="img-tile">
+                        <img src="grup_unearthed.jpeg" alt="Season 2026" class="tile-bg">
+                        <div class="tile-overlay">
+                            <span class="tile-year">2026</span>
+                            <div class="tile-label">UNEARTHED<div class="tile-arrow">➔</div></div>
+                        </div>
+                    </a>
+                    <a href="#detalii-2025" class="img-tile">
+                        <img src="submerged.jpg" alt="Season 2025" class="tile-bg">
+                        <div class="tile-overlay">
+                            <span class="tile-year">2025</span>
+                            <div class="tile-label">SUBMERGED<div class="tile-arrow">➔</div></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="team">
+            <div class="container">
+                <h2>Echipa</h2>
+                <div class="team-gallery">
+                    <div class="photo-frame">
+                        <img src="grup.jpeg" alt="Echipa Foto 1" class="team-img-large">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="grup1.jpeg" alt="Echipa Foto 2" class="team-img-large">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="grup2.jpeg" alt="Echipa Foto 3" class="team-img-large">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="glass-card">
+                    <div class="contact-header">
+                        <div class="contact-text">
+                            <h3>Colegiul Național "Mircea cel Bătrân"</h3>
+                            <p>Râmnicu Vâlcea</p>
+                        </div>
+                        <img src="cnmb.png" alt="Logo CNMB" class="contact-logo">
+                    </div>
+                    <div class="map-frame">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3461.192610176114!2d24.359041576856654!3d45.10838877107042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x474d38b228531637%3A0x1b60d9793f229fa4!2sColegiul%20Na%C8%9Bional%20Mircea%20cel%20B%C4%83tr%C3%A2n!5e1!3m2!1sro!2sro!4v1772822068862!5m2!1sro!2sro" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container footer-content">
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/code_troopers?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link" aria-label="Instagram" target="_blank">
+                        <img src="insta.png" alt="Instagram">
+                    </a>
+                    
+                    <a href="https://www.facebook.com/profile.php?id=100089243357638&locale=ro_RO" class="social-link" aria-label="Facebook" target="_blank">
+                        <img src="facebook.png" alt="Facebook">
+                    </a>
+                </div>
+                
+                <p style="margin:0;">© 2026 CodeTroopers. All rights reserved.</p>
+                <p class="made-by">Made by <span style="color:var(--accent)">TD</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const burger = document.getElementById('burgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        const links = document.querySelectorAll('.nav-link');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        links.forEach(l => l.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }));
+    </script>
+</body>
+</html>
