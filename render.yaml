@@ -1,0 +1,7 @@
+web:
+  - type: web
+    name: teodord-site
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app
+    plan: free
