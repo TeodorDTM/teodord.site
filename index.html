@@ -284,6 +284,7 @@
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
+    white-space: nowrap;
   }
 
   .site-btn:hover .site-label {
@@ -302,15 +303,67 @@
     z-index: 1;
   }
 
-  @media (max-width: 520px) {
-    .choices {
-      flex-direction: column;
+  /* ── MOBILE ─────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .stage {
+      gap: 2rem;
+      padding: 1.2rem 1rem;
+      justify-content: center;
     }
+
+    .heading {
+      margin-top: 0;        /* nu mai împinge textul în sus */
+    }
+
+    .heading h1 {
+      font-size: 1.35rem;
+    }
+
+    .heading p {
+      font-size: 0.82rem;
+    }
+
+    .choices {
+      flex-direction: row;  /* side-by-side pe telefon */
+      gap: 1.1rem;
+      flex-wrap: nowrap;
+    }
+
     .site-btn {
-      width: 70vw;
-      height: 70vw;
-      max-width: 280px;
-      max-height: 280px;
+      width: 38vw;
+      height: 38vw;
+      max-width: 160px;
+      max-height: 160px;
+      border-radius: 20px;
+    }
+
+    .site-btn .img-wrap,
+    .site-btn img {
+      border-radius: 20px;
+    }
+
+    /* Pe telefon afișăm label-ul mereu, nu doar la hover */
+    .site-label {
+      opacity: 0.85;
+      font-size: 0.7rem;
+      bottom: 10px;
+    }
+
+    footer {
+      font-size: 0.68rem;
+      bottom: 0.8rem;
+    }
+  }
+
+  /* Telefoane foarte mici (< 360px) */
+  @media (max-width: 360px) {
+    .site-btn {
+      width: 40vw;
+      height: 40vw;
+    }
+
+    .heading h1 {
+      font-size: 1.15rem;
     }
   }
 
@@ -357,17 +410,17 @@
   <footer>© 2026 — Teodor Dragutescu</footer>
 
   <script>
-    // Subtle parallax on mouse move for the liquid background
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      document.querySelectorAll('.blob').forEach((blob, i) => {
-        const depth = (i + 1) * 6;
-        blob.style.translate = `${x * depth}px ${y * depth}px`;
+    // Parallax doar pe desktop (touch devices nu au mousemove relevant)
+    if (!('ontouchstart' in window)) {
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        document.querySelectorAll('.blob').forEach((blob, i) => {
+          const depth = (i + 1) * 6;
+          blob.style.translate = `${x * depth}px ${y * depth}px`;
+        });
       });
-    });
-
-    // Keyboard accessibility: Enter/Space already handled natively by <button>
+    }
   </script>
 
 </body>
