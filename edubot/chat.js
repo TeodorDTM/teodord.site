@@ -2,7 +2,7 @@
 // Setează pe true dacă rulezi serverul Python (python server.py)
 // Setează pe false pentru mod demo (fără server)
 const USE_SERVER = true;
-const SERVER_URL = 'http://localhost:5000';
+const SERVER_URL = '';
 
 // ===== SESIUNE =====
 const SESSION_ID = 'session_' + Math.random().toString(36).slice(2, 10);
@@ -62,7 +62,7 @@ function showLocalWelcome() {
   ).join('');
 
   setTimeout(() => addBotMessage('👋 Bună! Sunt <strong>EduBot</strong>, asistentul tău educațional interactiv.'), 400);
-  setTimeout(() => addBotMessage('Tastează un număr de la <strong>1 la 5</strong> pentru a selecta capitolul pe care vrei să îl parcurgi.'), 1050);
+  setTimeout(() => addBotMessage('Tastează un număr de la <strong>1 la 7</strong> pentru a selecta capitolul pe care vrei să îl parcurgi.'), 1050);
   setTimeout(() => addBotMessage(`<div style="margin-top:6px">${chList}</div>`), 1800);
 }
 
