@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory # pyright: ignore[reportMissingImports]
 
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__, static_folder='edubot', static_url_path='')
 
 # ============================================================
 #   MENIU PRINCIPAL
@@ -694,11 +694,11 @@ def process_message(session_id, user_input):
 
 @app.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
+    return send_from_directory('edubot', 'index.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('.', filename)
+    return send_from_directory('edubot', filename)
 
 @app.route('/api/welcome', methods=['GET'])
 def welcome():

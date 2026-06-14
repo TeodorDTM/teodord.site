@@ -29,7 +29,7 @@
 <script>
 const capitol = new URLSearchParams(window.location.search).get('capitol') || '1';
 
-fetch(`http://localhost:5000/api/probleme/${capitol}`)
+fetch(`/api/probleme/${capitol}`)
   .then(r => r.json())
   .then(data => render(data))
   .catch(() => {
