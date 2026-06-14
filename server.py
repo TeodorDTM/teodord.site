@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory # pyright: ignore[reportMissingImports]
 
-app = Flask(__name__, static_folder='edubot', static_url_path='')
+app = Flask(__name__, static_folder='.', static_url_path='')
 
 # ============================================================
 #   MENIU PRINCIPAL
@@ -653,7 +653,7 @@ def process_message(session_id, user_input):
 
         elif user_input == '7':
             state['chapter'] = '7'
-            state['step'] = 'DONE'
+            state['step'] = 'AWAIT_CHOICE'
             return {
                 'messages': [
                     {'text': '🎓 <strong>Felicitări pentru finalizarea clasei a X-a!</strong>'},
@@ -663,7 +663,7 @@ def process_message(session_id, user_input):
                     {'text': '🚀 <strong>Mult succes la bacalaureat și la olimpiadă!</strong> Ești pregătit pentru ce urmează. 💪'},
             ],
             'buttons': [],
-            'step': 'DONE'
+            'step': 'AWAIT_CHOICE'
         }
 
         else:
@@ -694,11 +694,11 @@ def process_message(session_id, user_input):
 
 @app.route('/')
 def serve_index():
-    return send_from_directory('edubot', 'index.html')
+    return send_from_directory('.', 'index.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('edubot', filename)
+    return send_from_directory('.', filename)
 
 @app.route('/api/welcome', methods=['GET'])
 def welcome():
