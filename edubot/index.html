@@ -17,12 +17,28 @@
       <span class="logo-icon">◈</span>
       <span class="logo-text">EduBot</span>
     </div>
-    <div class="nav-links">
-      <a href="#despre">Despre</a>
-      <a href="#obiectiv">Obiectiv</a>
-      <a href="#echipa">Echipă</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#despre" onclick="closeMenu()">Despre</a>
+      <a href="#obiectiv" onclick="closeMenu()">Obiectiv</a>
+      <a href="#echipa" onclick="closeMenu()">Echipă</a>
     </div>
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMenu()" aria-label="Meniu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <script>
+    function toggleMenu() {
+      const links = document.getElementById('navLinks');
+      const btn = document.getElementById('navHamburger');
+      links.classList.toggle('open');
+      btn.classList.toggle('active');
+    }
+    function closeMenu() {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('navHamburger').classList.remove('active');
+    }
+  </script>
 
   <!-- HERO -->
   <section class="hero">

@@ -325,3 +325,137 @@ body {
   .section-block, .problema-card { padding: 20px 16px; }
   .io-grid { grid-template-columns: 1fr; }
 }
+/* ===== MOBILE OPTIMIZATIONS (max-width: 768px) ===== */
+/* These rules ONLY apply on phone screens and do NOT affect desktop */
+
+@media (max-width: 768px) {
+
+  /* Topbar */
+  .content-topbar {
+    padding: 11px 14px;
+    gap: 6px;
+  }
+  .back-btn {
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+  .topbar-center {
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+  .logo-icon {
+    font-size: 1rem;
+  }
+  .topbar-badge {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    min-width: 90px;
+  }
+
+  /* Main content */
+  .content-main {
+    padding: 32px 14px 60px;
+  }
+
+  /* Hero */
+  .content-title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+  .content-hero {
+    margin-bottom: 32px;
+  }
+
+  /* Section blocks */
+  .section-block {
+    padding: 20px 16px;
+  }
+  .section-heading {
+    font-size: 1.05rem;
+  }
+
+  /* Definitions */
+  .def-item {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .def-term {
+    white-space: normal;
+  }
+
+  /* Code blocks */
+  .code-block {
+    font-size: 0.78rem;
+    padding: 14px 12px;
+  }
+
+  /* IO grid - stack vertically on mobile */
+  .io-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Problem cards */
+  .problema-card {
+    padding: 18px 14px;
+    gap: 18px;
+  }
+  .problema-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Bottom nav */
+  .content-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nav-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* pb-label-row */
+  .pb-label-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pb-label {
+    font-size: 0.75rem;
+  }
+  .toggle-btn {
+    font-size: 0.74rem;
+    padding: 4px 10px;
+  }
+  .pb-box {
+    font-size: 0.88rem;
+    padding: 12px 14px;
+  }
+
+  /* Exemplu cards */
+  .exemplu-card {
+    padding: 14px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .content-topbar {
+    padding: 10px 10px;
+  }
+  .back-btn {
+    font-size: 0.75rem;
+    min-width: 60px;
+  }
+  .topbar-badge {
+    display: none;
+  }
+  .content-main {
+    padding: 24px 10px 50px;
+  }
+  .section-block {
+    padding: 16px 12px;
+  }
+}
