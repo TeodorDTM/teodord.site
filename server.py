@@ -550,7 +550,6 @@ def process_message(session_id, user_input):
     state = sessions[session_id]
     user_input = user_input.strip()
 
-    # ECHIVALENT: while (question != '8')
     if user_input == '8':
         sessions[session_id] = get_state()
         return {
@@ -653,17 +652,15 @@ def process_message(session_id, user_input):
 
         elif user_input == '7':
             state['chapter'] = '7'
-            state['step'] = 'AWAIT_CHOICE'
+            state['step'] = 'AWAIT_CHAPTER'
             return {
                 'messages': [
-                    {'text': '🎓 <strong>Felicitări pentru finalizarea clasei a X-a!</strong>'},
-                    {'text': 'Ai parcurs un an plin de provocări și realizări. Ai învățat să lucrezi cu <strong>matrici</strong>, să generezi structuri complexe, să scrii <strong>subprograme</strong> elegante, să manipulezi <strong>șiruri de caractere</strong>, să organizezi date cu <strong>struct</strong> și să gândești recursiv.'},
-                    {'text': '💡 Toate aceste concepte sunt fundamentele pe care se construiește programarea avansată. În clasa a XI-a te așteaptă <strong>backtracking</strong>, <strong>programare dinamică</strong> și <strong>teoria grafurilor</strong> — algoritmi cu care vei putea rezolva probleme cu adevărat complexe.'},
-                    {'text': '🏆 Câteva sfaturi pentru drumul înainte:<br>→ Exersează zilnic pe <strong>pbinfo.ro</strong> și <strong>infoarena.ro</strong><br>→ Citește cu atenție enunțurile și testează pe exemple mici<br>→ Nu te descuraja când un algoritm nu merge — depanarea face parte din proces<br>→ Încearcă să înțelegi <em>de ce</em> funcționează o soluție, nu doar să o memorezi'},
-                    {'text': '🚀 <strong>Mult succes la bacalaureat și la olimpiadă!</strong> Ești pregătit pentru ce urmează. 💪'},
+                    {'text': '🎓 <strong>Felicitări pentru finalizarea clasei a X-a!</strong> A fost un an dificil, plin de obstacole, dar și de amintiri frumoase împreună. Echipa noastră crede că orele de informatică ne-au ajutat să descoperim trăsături pe care nu știam că le avem, să gândim diferit și să ne cladim drumul spre succes. Voi ce părere aveți?'},
+                    {'text': '<strong>Îți mulțumim că ai folosit acest chatbot!</strong> Sper că te-a ajutat să înțelegi mai bine informatica și să descoperi cât de interesantă poate fi programarea. Îți doresc mult succes la școală și nu uita: <strong>fiecare mare programator a început cu prima linie de cod!</strong>'},
+                    {'text': '🚀 <strong>Mult succes mai departe!</strong> Ești pregătit pentru ce urmează. 💪'},
             ],
             'buttons': [],
-            'step': 'AWAIT_CHOICE'
+            'step': 'AWAIT_CHAPTER'
         }
 
         else:
