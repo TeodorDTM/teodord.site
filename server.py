@@ -550,7 +550,6 @@ def process_message(session_id, user_input):
     state = sessions[session_id]
     user_input = user_input.strip()
 
-    # ECHIVALENT: while (question != '8')
     if user_input == '8':
         sessions[session_id] = get_state()
         return {
@@ -570,8 +569,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=1'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=1'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=1'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=1'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -585,8 +585,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=2'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=2'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=2'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=2'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -600,8 +601,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=3'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=3'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=3'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=3'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -615,8 +617,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=4'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=4'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=4'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=4'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -630,8 +633,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=5'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=5'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=5'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=5'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -645,8 +649,9 @@ def process_message(session_id, user_input):
                     {'text': 'Ce vrei sa faci?'}
                 ],
                 'buttons': [
-                    {'text': '📖 Teorie',   'href': 'teorie.html?capitol=6'},
-                    {'text': '✏️ Probleme', 'href': 'probleme.html?capitol=6'},
+                    {'text': '📖 Teorie',            'href': 'teorie.html?capitol=6'},
+                    {'text': '✏️ Probleme',          'href': 'probleme.html?capitol=6'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
                 ],
                 'step': 'AWAIT_CHOICE'
             }
@@ -656,14 +661,14 @@ def process_message(session_id, user_input):
             state['step'] = 'AWAIT_CHOICE'
             return {
                 'messages': [
-                    {'text': '🎓 <strong>Felicitări pentru finalizarea clasei a X-a!</strong>'},
-                    {'text': 'Ai parcurs un an plin de provocări și realizări. Ai învățat să lucrezi cu <strong>matrici</strong>, să generezi structuri complexe, să scrii <strong>subprograme</strong> elegante, să manipulezi <strong>șiruri de caractere</strong>, să organizezi date cu <strong>struct</strong> și să gândești recursiv.'},
-                    {'text': '💡 Toate aceste concepte sunt fundamentele pe care se construiește programarea avansată. În clasa a XI-a te așteaptă <strong>backtracking</strong>, <strong>programare dinamică</strong> și <strong>teoria grafurilor</strong> — algoritmi cu care vei putea rezolva probleme cu adevărat complexe.'},
-                    {'text': '🏆 Câteva sfaturi pentru drumul înainte:<br>→ Exersează zilnic pe <strong>pbinfo.ro</strong> și <strong>infoarena.ro</strong><br>→ Citește cu atenție enunțurile și testează pe exemple mici<br>→ Nu te descuraja când un algoritm nu merge — depanarea face parte din proces<br>→ Încearcă să înțelegi <em>de ce</em> funcționează o soluție, nu doar să o memorezi'},
-                    {'text': '🚀 <strong>Mult succes la bacalaureat și la olimpiadă!</strong> Ești pregătit pentru ce urmează. 💪'},
-            ],
-            'buttons': [],
-            'step': 'AWAIT_CHOICE'
+                    {'text': '🎓 <strong>Felicitări pentru finalizarea clasei a X-a!</strong> A fost un an dificil, plin de obstacole, dar și de amintiri frumoase împreună. Echipa noastră crede că orele de informatică ne-au ajutat să descoperim trăsături pe care nu știam că le avem, să gândim diferit și să ne cladim drumul spre succes. Voi ce părere aveți?'},
+                    {'text': '<strong>Îți mulțumim că ai folosit acest chatbot!</strong> Sper că te-a ajutat să înțelegi mai bine informatica și să descoperi cât de interesantă poate fi programarea. Îți doresc mult succes la școală și nu uita: <strong>fiecare mare programator a început cu prima linie de cod!</strong>'},
+                    {'text': '🚀 <strong>Mult succes mai departe!</strong> Ești pregătit pentru ce urmează. 💪'},
+                ],
+                'buttons': [
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
+                ],
+                'step': 'AWAIT_CHOICE'
         }
 
         else:
@@ -673,12 +678,31 @@ def process_message(session_id, user_input):
                 'step': 'AWAIT_CHAPTER'
             }
 
+
     elif state['step'] == 'AWAIT_CHOICE':
-        return {
-            'messages': [{'text': 'Apasa unul din butoanele de mai sus: <strong>📖 Teorie</strong> sau <strong>✏️ Probleme</strong>.'}],
-            'buttons': [],
-            'step': 'AWAIT_CHOICE'
-        }
+        if user_input == 'change_chapter':
+            state['step'] = 'AWAIT_CHAPTER'
+            state['chapter'] = None
+            meniu = ''.join([f'<div style="padding:2px 0">  {linie}</div>' for linie in MENIU_PRINCIPAL])
+            return {
+                'messages': [
+                    {'text': '🔄 Ok! Tasteaza numarul capitolului pe care vrei sa il parcurgi:'},
+                    {'text': meniu}
+                ],
+                'buttons': [],
+                'step': 'AWAIT_CHAPTER'
+            }
+        else:
+            ch = state.get('chapter', '?')
+            return {
+                'messages': [{'text': f'Te rog apasa unul dintre butoanele de mai sus sau <strong>🔀 Alege alt capitol</strong> pentru a schimba.'}],
+                'buttons': [
+                    {'text': '📖 Teorie',            'href': f'teorie.html?capitol={ch}'},
+                    {'text': '✏️ Probleme',          'href': f'probleme.html?capitol={ch}'},
+                    {'text': '🔀 Alege alt capitol', 'href': 'change_chapter'},
+                ],
+                'step': 'AWAIT_CHOICE'
+            }
 
     elif state['step'] == 'DONE':
         return {

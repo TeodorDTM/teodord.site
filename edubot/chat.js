@@ -152,12 +152,25 @@ function addChoiceButtonsFromServer(buttons, chapter) {
   btnsDiv.className = 'choice-buttons';
 
   buttons.forEach(btn => {
-    const a = document.createElement('a');
-    a.className = 'choice-btn';
-    a.href = `${btn.href}`;
-    a.innerHTML = btn.text;
-    a.addEventListener('click', () => disableChoiceButtons());
-    btnsDiv.appendChild(a);
+    if (btn.href === 'change_chapter') {
+      // Buton special: nu navigheaza, trimite comanda la server
+      const b = document.createElement('button');
+      b.className = 'choice-btn';
+      b.innerHTML = btn.text;
+      b.addEventListener('click', () => {
+        disableChoiceButtons();
+        addUserMessage('🔀 Alege alt capitol');
+        sendToServer('change_chapter');
+      });
+      btnsDiv.appendChild(b);
+    } else {
+      const a = document.createElement('a');
+      a.className = 'choice-btn';
+      a.href = `${btn.href}`;
+      a.innerHTML = btn.text;
+      a.addEventListener('click', () => disableChoiceButtons());
+      btnsDiv.appendChild(a);
+    }
   });
 
   row.appendChild(avatar);
