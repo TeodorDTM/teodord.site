@@ -486,13 +486,13 @@ def probleme_capitol_4():
         'titlu': 'Siruri de Caractere',
         'probleme': [
             {
-                'sursa': 'Clasa a X-a, Evaluare',
-                'enunt_original': 'Se da o matrice cu n linii si m coloane cu elemente numere naturale. Determinati suma valorilor pare din matrice.',
-                'enunt_reformulat': 'Intr-un depozit cu n randuri si m rafturi, fiecare raft contine un numar de produse. Un inspector vrea sa stie cate produse sunt in total pe rafturile cu numar par de produse (pentru o oferta speciala). Calculeaza suma!',
-                'intrare': '4 6\n4 20 15 23 18 9\n1 8 23 22 14 18\n17 15 13 18 12 15\n3 18 8 20 12 5',
-                'iesire': '192',
-                'cod_cpp': '#include <iostream>\nusing namespace std;\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n\n    long long suma = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            int x;\n            cin >> x;\n            if (x % 2 == 0)\n                suma += x;\n        }\n    }\n\n    cout << suma << endl;\n    return 0;\n}',
-                'explicatie': 'Citim elementele pe rand (nu trebuie sa le stocam, le procesam imediat). Pentru fiecare element verificam daca este par (x % 2 == 0). Daca da, il adaugam la suma. Folosim long long pentru suma deoarece n, m <= 100 si elemente < 10000, deci suma maxima poate fi 100*100*10000 = 100.000.000, care incape in int, dar long long e mai sigur.'
+                'sursa': 'Bacalaureat Informatica',
+                'enunt_original': 'Se consideră un cuvânt format din cel puțin două și cel mult 100 de caractere, numai litere mici ale alfabetului englez. Scrieţi un program care citeşte de la tastatură un cuvânt de tipul precizat și afișează pe ecran mesajul DA în cazul în care cuvântul conține doar consoane şi, eventual, vocala i, sau mesajul NU în caz contrar.',
+                'enunt_reformulat': 'Un profesor verifică parole speciale alcătuite doar din litere mici. O parolă este considerată validă dacă nu conține nicio vocală, cu excepția literei „i”, care este permisă. Ajută profesorul să determine dacă parola respectă această regulă. Afișează DA dacă toate literele sunt consoane sau litera i, iar NU în caz contrar.',
+                'intrare': 'primit',
+                'iesire': 'DA',
+                'cod_cpp': '#include <iostream>\n#include <cstring>\nusing namespace std;\n\nint main() {\n    char s[101];\n    cin >> s;\n\n    for (int i = 0; s[i] != "\\0"; i++) {\n        if (s[i] == "a" || s[i] == "e" || s[i] == "o" || s[i] == "u") {\n            cout << \"NU\";\n            return 0;\n        }\n    }\n\n    cout << \"DA\";\n\n    return 0;\n}',
+                'explicatie': 'Parcurgem fiecare caracter al cuvântului. Dacă găsim una dintre vocalele a, e, o sau u, înseamnă că regula este încălcată și afișăm imediat „NU”. Vocala i este permisă, deci nu o verificăm. Dacă am parcurs tot cuvântul fără să găsim o vocală interzisă, afișăm „DA”. Complexitatea algoritmului este O(n), unde n este lungimea cuvântului (maximum 100 de caractere).'
             },
         ]
     }
